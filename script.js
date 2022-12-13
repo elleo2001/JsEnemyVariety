@@ -54,11 +54,12 @@ document.addEventListener('DOMContentLoaded', function(){
             this.x -= this.vx* deltaTime;     
             if (this.x < 0 - this.width) this.markedForDeletion = true;
             if (this.frameTimer > this.frameInterval){
-                if (this.frameX < this.maxFrame) {
-                    
-                }
+                if (this.frameX < this.maxFrame) this.frameX++;
+                else this.frameX = 0;
+                this.frameTimer += deltaTime;
+                
             } else {
-
+                this.frameTimer += deltaTime;
             }
         }
         draw(ctx){
@@ -67,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function(){
             } else {
                 this.frameTimer += deltaTime;
             }
-            ctx.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight,
-            this.x, this.y, this.width, this.height);
+            ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.
+            spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
         }
     }
 
@@ -129,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
         update(deltaTime){
             super.update(deltaTime);
+            if (this.y < 0 - this.height * 2) this.markedForDeletion = true;
             this.y += this.vy * deltaTime;
             if (this.y > this.maxLength) this.vy *= -1;
         }
